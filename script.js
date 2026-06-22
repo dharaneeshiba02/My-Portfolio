@@ -47,26 +47,27 @@ const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // Get form values
-        const formData = new FormData(contactForm);
-        
-        // Show success message
+        // Let Formspree handle the submission
+        // But we can add custom feedback
         const button = contactForm.querySelector('button');
         const originalText = button.textContent;
         
-        button.textContent = 'Message Sent! ✓';
-        button.style.background = '#10b981';
+        button.textContent = 'Sending...';
+        button.disabled = true;
         
-        // Reset form
-        contactForm.reset();
-        
-        // Reset button after 3 seconds
+        // After form submits to Formspree, show success
         setTimeout(() => {
-            button.textContent = originalText;
-            button.style.background = '';
-        }, 3000);
+            button.textContent = 'Message Sent! ✓';
+            button.style.background = '#10b981';
+            
+            // Reset after 3 seconds
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '';
+                button.disabled = false;
+                contactForm.reset();
+            }, 2000);
+        }, 500);
     });
 }
 
